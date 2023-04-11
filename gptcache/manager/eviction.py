@@ -2,6 +2,10 @@ import numpy as np
 
 
 class EvictionManager:
+    """
+    EvictionManager to manager the eviction policy.
+    """
+
     MAX_MARK_COUNT = 5000
     MAX_MARK_RATE = 0.1
     BATCH_SIZE = 100000
@@ -14,7 +18,10 @@ class EvictionManager:
     def check_evict(self):
         mark_count = self._scalar_storage.count(state=-1)
         all_count = self._scalar_storage.count(is_all=True)
-        if mark_count > self.MAX_MARK_COUNT or mark_count / all_count > self.MAX_MARK_RATE:
+        if (
+            mark_count > self.MAX_MARK_COUNT
+            or mark_count / all_count > self.MAX_MARK_RATE
+        ):
             return True
         return False
 
@@ -29,9 +36,10 @@ class EvictionManager:
         count = self._scalar_storage.count()
         offset = 0
         while offset < count:
-            data = self._scalar_storage.get_embedding_data(offset, self.BATCH_SIZE)
-            np_data = [np.frombuffer(d[0], np.float32) for d in data]
-            self._vector_base.rebuild(np_data)
+            res = self._scalar_storage.get_embedding_data(offset, self.BATCH_SIZE)
+            ids = [d[0] for d in res]
+            np_data = [np.frombuffer(d[1], np.float32) for d in res]
+            self._vector_base.rebuild(np_data, ids)
             offset += self.BATCH_SIZE
 
     def soft_evict(self, count):

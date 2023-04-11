@@ -7,12 +7,13 @@ class CacheStorage(metaclass=ABCMeta):
     """
     BaseStorage for scalar data.
     """
+
     @abstractmethod
     def create(self):
         pass
 
     @abstractmethod
-    def insert(self, key, data, reply, embedding_data: np.ndarray = None):
+    def insert(self, data, reply, embedding_data: np.ndarray = None):
         pass
 
     @abstractmethod
@@ -45,10 +46,6 @@ class CacheStorage(metaclass=ABCMeta):
 
     @abstractmethod
     def get_old_create(self, count):
-        pass
-
-    @abstractmethod
-    def count(self):
         pass
 
     @abstractmethod

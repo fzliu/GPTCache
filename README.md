@@ -1,9 +1,10 @@
 # GPTCache : A Library for Creating Semantic Cache for LLM Queries
 Slash Your LLM API Costs by 10x 💰, Boost Speed by 100x ⚡ 
 
-[![Release](https://img.shields.io/pypi/v/gptcache?label=Release&color)](https://pypi.org/project/gptcache/)
-[![CI](https://github.com/zilliztech/gptcache/actions/workflows/CI_main.yaml/badge.svg)](https://github.com/zilliztech/gptcache/actions/workflows/CI_main.yaml)
-[![pip download](https://img.shields.io/pypi/dm/gptcache.svg?color=bright-green)](https://pypi.org/project/gptcache/)
+[![Release](https://img.shields.io/pypi/v/gptcache?label=Release&color&logo=Python)](https://pypi.org/project/gptcache/)
+[![Pylint](https://img.shields.io/github/actions/workflow/status/zilliztech/GPTCache/pylint.yaml?label=Pylint&logo=Github)](https://github.com/zilliztech/gptcache/actions/workflows/pylint.yaml)
+[![CI](https://img.shields.io/github/actions/workflow/status/zilliztech/GPTCache/unit_test_main.yaml?label=Test&logo=Github)](https://github.com/zilliztech/gptcache/actions/workflows/unit_test_main.yaml)
+[![pip download](https://img.shields.io/pypi/dm/gptcache.svg?color=bright-green&logo=Pypi)](https://pypi.org/project/gptcache/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/mit/)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/zilliz_universe.svg?style=social&label=Follow%20%40Zilliz)](https://twitter.com/zilliz_universe)
 [![Discord](https://dcbadge.vercel.app/api/server/Q8C6WEjSWV?compact=true&style=flat)](https://discord.gg/Q8C6WEjSWV)
@@ -38,7 +39,7 @@ To tackle this challenge, we have created GPTCache, a project dedicated to build
 
 ```bash
 # clone GPTCache repo
-git clone https://github.com/zilliztech/GPTCache.git
+git clone -b dev https://github.com/zilliztech/GPTCache.git
 cd GPTCache
 
 # install the repo
@@ -146,13 +147,13 @@ def response_text(openai_resp):
 from gptcache import cache
 from gptcache.adapter import openai
 from gptcache.embedding import Onnx
-from gptcache.manager.factory import get_data_manager
+from gptcache.manager import CacheBase, VectorBase, get_data_manager
 from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 print("Cache loading.....")
 
 onnx = Onnx()
-data_manager = get_data_manager("sqlite", "faiss", dimension=onnx.dimension)
+data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension))
 cache.init(
     embedding_func=onnx.to_embeddings,
     data_manager=data_manager,

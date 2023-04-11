@@ -1,4 +1,6 @@
-from .similarity_evaluation import SimilarityEvaluation
+from typing import Tuple, Dict, Any
+
+from gptcache.similarity_evaluation.similarity_evaluation import SimilarityEvaluation
 
 
 class ExactMatchEvaluation(SimilarityEvaluation):
@@ -8,23 +10,26 @@ class ExactMatchEvaluation(SimilarityEvaluation):
         .. code-block:: python
 
             from gptcache.similarity_evaluation import ExactMatchEvaluation
-            
+
             evaluation = ExactMatchEvaluation()
             score = evaluation.evaluation(
-                {   
-                    "question": "What is the color of sky?" 
+                {
+                    "question": "What is the color of sky?"
                 },
                 {
                     "question": "What is the color of sky?"
                 }
             )
     """
+
     def __init__(self):
         pass
 
-    def evaluation(self, src_dict, cache_dict, **kwargs):
+    def evaluation(
+        self, src_dict: Dict[str, Any], cache_dict: Dict[str, Any], **_
+    ) -> float:
         """Evaluate the similarity score of pair.
-        
+
         :param src_dict: the query dictionary to evaluate with cache_dict.
         :type src_dict: Dict
         :param cache_dict: the cache dictionary.
@@ -32,11 +37,11 @@ class ExactMatchEvaluation(SimilarityEvaluation):
 
         :return: evaluation score.
         """
-        return 1 if cache_dict['question'] == src_dict['question'] else 0
+        return 1 if cache_dict["question"] == src_dict["question"] else 0
 
-    def range(self):
+    def range(self) -> Tuple[float, float]:
         """Range of similarity score.
-        
+
         :return: minimum and maximum of similarity score.
         """
         return 0, 1

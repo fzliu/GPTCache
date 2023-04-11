@@ -1,8 +1,9 @@
-name: pylint
+name: Pylint
 on:
-  pull_request:
+  push:
     branches:
       - main
+      - dev
       # file paths to consider in the event
     paths:
       - 'examples/**'
@@ -10,8 +11,21 @@ on:
       - 'tests/**'
       - '!**.md'
       - '.github/workflows/**'
+  pull_request:
+    branches:
+      - main
+      - dev
+      # file paths to consider in the event
+    paths:
+      - 'examples/**'
+      - 'gptcache/**'
+      - 'tests/**'
+      - '!**.md'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
 jobs:
-  run:
+  pylint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3.0.0
